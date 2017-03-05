@@ -1,0 +1,51 @@
+*  
+*
+* This is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2, or (at your option)
+* any later version.
+*
+* Copyright Michael Arendall Jan. 2017 miche.arendall@gmail.com
+*
+*  Xyce Memristor technology .MODEL. 
+*
+*  Basic AC Sinusoidal 1V pk supply.
+*
+*  A copy of this model must be placed on 
+*  (a) a Xyce top level circuit schematic with linear and standard memristor components only, 
+*  or on 
+*  (b) a Xyce user defined subckt which contains linear and standard memristor components only.
+* 
+*  See the the Qucs-S Help documentation for more information on how to construct and simulate Xyce schematics with
+*  linear components and logic components built with different technologies.
+*
+*  Note the Xyce "memristor" technology model name is YMEMRISTOR. This is the same for all types of Qucs-S Xyce memristor technologies
+*  and must NOT be changed.
+*
+*****************************************************************************************************************************
+.model MRM2 memristor ( level=2 
++ ron=50 roff=1000 IVRELATION=0
++ koff=1.46e-18 kon=-4.68e-22
++ alphaoff=10 alphaon=10 wc=1.0e-12
++ ioff=115e-6 ion=-8.9e-6 
++ xscaling=1.0e9 wt=4 )
+*
+*****************************************************************************************************************************
+.model MRM3 memristor ( level=3
++ a1=0.17 a2=0.17 b=0.05 vp=0.16 vn=0.15
++ ap=4000 an=4000 xp=0.3 xn=0.5
++ alphap=1 alphan=5 eta=1 )
+*
+*****************************************************************************************************************************
+.model MRM4 memristor ( level=4
++ Roff=16000 Ron=100
++ D=10e-9 uv=10e-15 p=2.0 )
+*
+*****************************************************************************************************************************
+.model MRM5 memristor ( level=5
++ Roff=1500 Ron=500
++ Voff=0.27 Von=0.27
++ Tau=0.0001 )
+*
+*****************************************************************************************************************************
+

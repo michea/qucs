@@ -1,0 +1,30 @@
+*  
+*
+* This is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2, or (at your option)
+* any later version.
+*
+* Copyright Michael Arendall Jan. 2017 miche.arendall@gmail.com
+*
+*  Xyce Memristor technology .MODEL. 
+*
+*  Basic AC Sinusoidal 1V pk supply.
+*
+*  A copy of this model must be placed on 
+*  (a) a Xyce top level circuit schematic with Knowm memristor components only, 
+*  or on 
+*  (b) a Xyce user defined subckt which contains Knowm memristor components only.
+* 
+*  See the the Qucs-S Help documentation for more information on how to construct and simulate Xyce schematics with
+*  linear components and logic components built with different technologies.
+*
+*  Note the Xyce "memristor" technology model name for Knowm memristor components is MRM5. This is the same for all 
+*  types of Qucs-S Xyce memristor technologies and must NOT be changed.
+*
+*****************************************************************************************************************************
+.model MRM5 memristor ( level=5
++ Roff=1500 Ron=500
++ Voff=0.27 Von=0.27
++ Tau=0.0001 )
+

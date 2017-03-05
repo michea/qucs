@@ -18,8 +18,6 @@ sp_ic.cpp
 sp_nodeset.cpp
 sp_model.cpp
 sp_include.cpp
-sp_func.cpp
-incl_script.cpp
 
 #end of SPICE section
 
@@ -51,6 +49,7 @@ PJF_SPICE.cpp
 NMOS_SPICE.cpp
 PMOS_SPICE.cpp
 volt_ac_SPICE.cpp
+MEMRISTOR_SPICE.cpp
 
 # SPICE simulations list
 
@@ -104,8 +103,6 @@ sp_ic.h
 sp_nodeset.h
 sp_model.h
 sp_include.h
-sp_func.h
-incl_script.h
 
 #end SPICE sections
 
@@ -143,6 +140,7 @@ sp_disto.h
 sp_noise.h
 sp_pz.h
 xyce_script.cpp
+MEMRISTOR_SPICE.h
 
 # 
 # Qucs-S new components h list

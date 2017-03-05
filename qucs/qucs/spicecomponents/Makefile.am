@@ -55,25 +55,25 @@ libspicecomponents_a_SOURCES = src_eqndef.cpp \
 	MESFET_SPICE.cpp \
 	PMF_MESFET_SPICE.cpp \
 	LTL_SPICE.cpp \
-        UDRCTL_SPICE.cpp \
-        LTRA_SPICE.cpp \
-        DIODE_SPICE.cpp \
-        NPN_SPICE.cpp \
-        PNP_SPICE.cpp \
-        NJF_SPICE.cpp \
-        PJF_SPICE.cpp \
-        NMOS_SPICE.cpp \
-        PMOS_SPICE.cpp \
-        volt_ac_SPICE.cpp \
+    UDRCTL_SPICE.cpp \
+    LTRA_SPICE.cpp \
+    DIODE_SPICE.cpp \
+    NPN_SPICE.cpp \
+    PNP_SPICE.cpp \
+    NJF_SPICE.cpp \
+    PJF_SPICE.cpp \
+    NMOS_SPICE.cpp \
+    PMOS_SPICE.cpp \
+    volt_ac_SPICE.cpp \
 	sp_customsim.cpp \
 	sp_fourier.cpp \
 	sp_disto.cpp \
 	sp_noise.cpp \
-        S4Q_V.cpp \
-        S4Q_Ieqndef.cpp \
-        S4Q_I.cpp \
-        S4Q_S.cpp \
-        S4Q_W.cpp \
+    S4Q_V.cpp \
+    S4Q_Ieqndef.cpp \
+    S4Q_I.cpp \
+    S4Q_S.cpp \
+    S4Q_W.cpp \
 	sp_model.cpp \
 	sp_include.cpp \
 	sp_pz.cpp \
@@ -87,8 +87,7 @@ libspicecomponents_a_SOURCES = src_eqndef.cpp \
 	xsp_codemodel.cpp \
 	spicegeneric.cpp \
 	spicelibcomp.cpp \
-	sp_func.cpp \
-	incl_script.cpp
+	MEMRISTOR_SPICE.cpp
 
 
 #nodist_libcomponents_a_SOURCES = $(MOCFILES)
@@ -130,13 +129,13 @@ noinst_HEADERS = src_eqndef.h \
 	volt_ac_SPICE.h \
 	sp_customsim.h \
 	sp_fourier.h \
-        sp_disto.h \
+    sp_disto.h \
 	sp_noise.h \
-        S4Q_V.h \
-        S4Q_Ieqndef.h \
-        S4Q_I.h \
-        S4Q_S.h \
-        S4Q_W.h \
+    S4Q_V.h \
+    S4Q_Ieqndef.h \
+    S4Q_I.h \
+    S4Q_S.h \
+    S4Q_W.h \
 	sp_model.h \
 	sp_include.h \
 	sp_pz.h \
@@ -150,8 +149,7 @@ noinst_HEADERS = src_eqndef.h \
 	xsp_codemodel.h \
 	spicegeneric.h \
 	spicelibcomp.h \
-	sp_func.cpp \
-	incl_script.cpp
+	MEMRISTOR_SPICE.h
 
 
 AM_CPPFLAGS = $(X11_INCLUDES) $(QT_INCLUDES) -I$(top_srcdir)/qucs

@@ -55,6 +55,7 @@
 #include "PMOS_SPICE.h"
 #include "MESFET_SPICE.h"
 #include "PMF_MESFET_SPICE.h"
+#include "MEMRISTOR_SPICE.h"
 
 // XSPICE analogue blocks
 #include "Icouple.h"
@@ -71,8 +72,6 @@
 #include "sp_ic.h"
 #include "sp_model.h"
 #include "sp_include.h"
-#include "sp_func.h"
-#include "incl_script.h"
 
 // Spice simulations
 #include "sp_fourier.h"

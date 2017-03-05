@@ -400,6 +400,7 @@ void Module::registerModules (void) {
       REGISTER_NONLINEAR_1 (PMF_MESFET_SPICE);
       REGISTER_NONLINEAR_1 (S4Q_Ieqndef);
       REGISTER_NONLINEAR_1 (Src_eqndef);
+      REGISTER_NONLINEAR_1 (MEMRISTOR_SPICE);
   }
 
   REGISTER_NONLINEAR_1 (OpAmp);
@@ -572,9 +573,6 @@ void Module::registerModules (void) {
       REGISTER_SPICE_SEC_1 (NutmegEquation);
       REGISTER_SPICE_SEC_1 (S4Q_Model);
       REGISTER_SPICE_SEC_1 (S4Q_Include);
-      REGISTER_SPICE_SEC_1 (SpiceFunc);
-      REGISTER_SPICE_SEC_1 (InclScript);
-
 
       // Qucs legacy devices
       REGISTER_QUCS_2 (Resistor, info, info_us);

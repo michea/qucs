@@ -20,6 +20,9 @@ Xanalogue.lib
 MESFETs.lib
 XyceDigital.lib
 Xyce_Digital_TTL_Technology.lib
+Xyce_Memristor_Technology.lib
+#Knowm_AHaH.lib
+#Knowm_AHaH_Technology.lib
 )
 
 SET(BLACKLIST
@@ -33,3 +36,5 @@ INSTALL( FILES ${COMPLIBS} ${BLACKLIST} DESTINATION share/qucs/library )
 ADD_SUBDIRECTORY( AnalogueCM )
 ADD_SUBDIRECTORY( MESFETs )
 ADD_SUBDIRECTORY( XyceDigital)
+ADD_SUBDIRECTORY( XyceMemristor)
+#ADD_SUBDIRECTORY( Knowm_AHaH )
