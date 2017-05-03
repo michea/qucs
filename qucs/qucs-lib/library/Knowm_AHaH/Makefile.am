@@ -23,7 +23,7 @@
 #
 
 
-CMLIBS = AHAH1-2.sym AHAH2-1.sym
+CMLIBS = AHAH1-2.sym AHAH1-2i.sym AHAH2-1.sym AHAH2-1i.sym
 
 
 EXTRA_DIST = $(CMLIBS)

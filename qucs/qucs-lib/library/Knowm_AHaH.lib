@@ -10,12 +10,22 @@
 * Copyright Michael Arendall Jan. 2017 miche.arendall@gmail.com
 *
 * ***********************************************************************************
-.subckt AHAH2-1 nin1 nin2 nout 
+.subckt AHAH2-1 nin1 nin2 nout
 YMEMRISTOR MR1 nin1 nout MRM5
 YMEMRISTOR MR2 nout nin2 MRM5
 .ends AHAH2-1
 *************************************************************************************
+.subckt AHAH2-1i nin1 nin2 nout
+YMEMRISTOR MR1 nout nin1 MRM5
+YMEMRISTOR MR2 nin2 nout MRM5
+.ends AHAH2-1i
+*************************************************************************************
 .subckt AHAH1-2 nin nout1 nout2
-YMEMRISTOR MR1 nout1 nin MRM5
+YMEMRISTOR MR1 nin nout1 MRM5
 YMEMRISTOR MR2 nin nout2 MRM5
 .ends AHAH1-2
+*************************************************************************************
+.subckt AHAH1-2i nin nout1 nout2
+YMEMRISTOR MR1 nout1 nin MRM5
+YMEMRISTOR MR2 nout2 nin MRM5
+.ends AHAH1-2i

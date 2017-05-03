@@ -25,8 +25,10 @@
 
 # basic scripts
 BASICS = getQucsVariable.m loadQucsDataSet.m showQucsDataSet.m \
-	loadQucsVariable.m plotCartesian2D.m plotCartesian2D2V.m\
-        plotFFT.m plotFFT2V.m plotTimeFFT.m
+	loadQucsVariable.m plotCartesian2D.m plotCartesian2D2V.m \
+        plotFFT.m plotFFT2V.m plotTimeFFT.m plotCartesianN2D2V.m \
+        loadQucsNDataSet.m parseQucsNDataSet.m createPulseNDataSet.m
+        
 
 EXTRA_DIST = $(BASICS)
 
