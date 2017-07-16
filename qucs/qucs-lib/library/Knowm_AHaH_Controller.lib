@@ -1,0 +1,23 @@
+* Knowm AHaH memristor-based node models: experimental behavioral models.
+* Developed for Xyce/Qucs-S.
+*
+*
+* This is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2, or (at your option)
+* any later version.
+*
+* Copyright Michael Arendall July 2017 miche.arendall@gmail.com
+*
+************************************************************************************
+.subckt AHAH-FFRX nout1 nout2
+.PARAM period={1/(PulseFreq+1e-20)}
+.PARAM p1={period}
+.PARAM p2={period}
+.PARAM p3={0.5*p1}
+.PARAM p4={0.5*p2}
+Inout1 0 nout1 dc 0 ac 0 pulse( 0 {ScaleFactor} 0 1n 1n {p1} {p2})
+Rout1 nout1 0 1
+Inout2 0 nout2 dc 0 ac 0 pulse( 0 {ScaleFactor} 0 1n 1n {p3} {p4})
+Rout2 nout2 0 1
+.ends AHAH-FFRX

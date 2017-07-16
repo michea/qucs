@@ -1,11 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 # 
-# qucs-lib/library/Makefile.am
+# qucs-lib/library/Knowm_AHaH/Makefile.am
 #
 # Automake input file.
 #
-# Copyright (C) 2004, 2005, 2008 Stefan Jahn <stefan@lkcc.org>
-# Copyright (C) 2016 Mike Brinson <mbrin72043@yahoo.co.uk>
+# Copyright (C) 2017 Michael Arendall miche.arendall@gmail.com
 #
 # This is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,25 +22,15 @@
 # Boston, MA 02110-1301, USA.  
 #
 
-SUBDIRS =  AnalogueCM MESFETs XyceDigital XyceMemristor Knowm_AHaH_Nodes Knowm_AHaH_Controller
+
+CMLIBS = AHAH1-2.sym AHAH1-2i.sym AHAH2-1.sym AHAH2-1i.sym
 
 
-COMPLIBS = Transistors.lib Substrates.lib Diodes.lib MOSFETs.lib OpAmps.lib \
-          Bridges.lib LEDs.lib JFETs.lib Z-Diodes.lib NMOSFETs.lib \
-	       PMOSFETs.lib Ideal.lib Regulators.lib Varistors.lib Cores.lib Transformers.lib \
-	       AnalogueCM.lib Xanalogue.lib MESFETs.lib qucs.blacklist ngspice.blacklist \
-          xyce.blacklist XyceDigital.lib Xyce_Digital_TTL_Technology.lib \
-          Xyce_Memristor_Technology.lib \
-          Knowm_AHaH_Nodes.lib Knowm_AHaH_Controller.lib Knowm_Memristor_Technology.lib 
-	       
-	       
-
-EXTRA_DIST = $(COMPLIBS) 
-
+EXTRA_DIST = $(CMLIBS)
 
 # installation of component libraries
-librarydir = ${prefix}/share/qucs/library
-library_DATA = $(EXTRA_DIST)
+librarydir = ${prefix}/share/qucs/library/Knowm_AHaH_Nodes
+library_DATA = $(CMLIBS)
 
 CLEANFILES = *~
 MAINTAINERCLEANFILES = Makefile.in

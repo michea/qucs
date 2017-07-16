@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 # 
-# qucs-lib/library/Knowm_AHaH/Makefile.am
+# qucs-lib/library/Knowm_AHaH_Controller/Makefile.am
 #
 # Automake input file.
 #
@@ -23,13 +23,13 @@
 #
 
 
-CMLIBS = AHAH1-2.sym AHAH1-2i.sym AHAH2-1.sym AHAH2-1i.sym
+CMLIBS = AHAH-FFRX.sym
 
 
 EXTRA_DIST = $(CMLIBS)
 
 # installation of component libraries
-librarydir = ${prefix}/share/qucs/library/Knowm_AHaH
+librarydir = ${prefix}/share/qucs/library/Knowm_AHaH_Controller
 library_DATA = $(CMLIBS)
 
 CLEANFILES = *~

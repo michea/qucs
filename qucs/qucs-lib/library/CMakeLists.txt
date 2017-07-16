@@ -21,8 +21,9 @@ MESFETs.lib
 XyceDigital.lib
 Xyce_Digital_TTL_Technology.lib
 Xyce_Memristor_Technology.lib
-Knowm_AHaH.lib
-Knowm_AHaH_Technology.lib
+Knowm_AHaH_Nodes.lib
+Knowm_AHaH_Controller.lib
+Knowm_Memristor_Technology.lib
 )
 
 SET(BLACKLIST
@@ -37,4 +38,5 @@ ADD_SUBDIRECTORY( AnalogueCM )
 ADD_SUBDIRECTORY( MESFETs )
 ADD_SUBDIRECTORY( XyceDigital)
 ADD_SUBDIRECTORY( XyceMemristor)
-ADD_SUBDIRECTORY( Knowm_AHaH )
+ADD_SUBDIRECTORY( Knowm_AHaH_Nodes )
+ADD_SUBDIRECTORY( Knowm_AHaH_Controller )
