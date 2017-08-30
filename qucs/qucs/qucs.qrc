@@ -306,6 +306,7 @@
         <file>bitmaps/spicegeneric.png</file>
         <file>bitmaps/spicelibcomp.png</file>
         <file>bitmaps/xyce_script.png</file>
+        <file>bitmaps/jspice_script.png</file>
         <file>bitmaps/MEMRISTOR_SPICE.png</file>
  
     </qresource>

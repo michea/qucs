@@ -32,6 +32,7 @@ MOCHEADERS = \
 		externsimdialog.h \
 		ngspice.h \
 		xyce.h \
+		jspice.h \
 		simsettingsdialog.h
 
 MOCFILES = $(MOCHEADERS:.h=.moc.cpp)
@@ -44,6 +45,7 @@ libextsimkernels_a_SOURCES = \
 		qucs2spice.cpp \
 		spicecompat.cpp \
 		xyce.cpp  \
+		jspice.cpp  \
 		simsettingsdialog.cpp \
 		verilogawriter.cpp \
 		xspice_cmbuilder.cpp
@@ -58,6 +60,7 @@ noinst_HEADERS = $(MOCHEADERS) \
 		qucs2spice.h \
 		spicecompat.h \
 		xyce.h \
+		jspice.h \
 		simsettingsdialog.h \
 		verilogawriter.h \
 		xspice_cmbuilder.h

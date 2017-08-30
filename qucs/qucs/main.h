@@ -70,6 +70,7 @@ struct tQucsSettings {
   QString NgspiceExecutable;  // Executables of external simulators
   QString XyceExecutable;
   QString XyceParExecutable;
+  QString JSpiceExecutable;
   QString SpiceOpusExecutable;
   QString S4Qworkdir;
   unsigned int NProcs; // Number of processors for Xyce

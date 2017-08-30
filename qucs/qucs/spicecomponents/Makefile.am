@@ -78,6 +78,7 @@ libspicecomponents_a_SOURCES = src_eqndef.cpp \
 	sp_include.cpp \
 	sp_pz.cpp \
 	xyce_script.cpp \
+	jspice_script.cpp \
 	core.cpp \
 	Icouple.cpp \
 	SDTF.cpp \
@@ -140,6 +141,7 @@ noinst_HEADERS = src_eqndef.h \
 	sp_include.h \
 	sp_pz.h \
 	xyce_script.h \
+	jspice_script.h \
 	core.h \
 	Icouple.h \
 	SDTF.h \

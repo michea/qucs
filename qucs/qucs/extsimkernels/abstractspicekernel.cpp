@@ -28,6 +28,7 @@
 #include "../paintings/id_text.h"
 #include "dialogs/sweepdialog.h"
 #include <QPlainTextEdit>
+#include <QMessageBox>
 
 /*!
   \file abstractspicekernel.cpp
@@ -241,8 +242,9 @@ void AbstractSpiceKernel::createSubNetlsit(QTextStream &stream, bool lib)
     if (lib) stream<<"\n";
     stream<<header;
     bool xyce = false;
-    if ((QucsSettings.DefaultSimulator == spicecompat::simXyceSer)||
-        (QucsSettings.DefaultSimulator == spicecompat::simXycePar)) xyce = true;
+    if (QucsSettings.DefaultSimulator == spicecompat::simXyceSer ||
+        QucsSettings.DefaultSimulator == spicecompat::simXycePar ||
+        QucsSettings.DefaultSimulator == spicecompat::simJSpice) xyce = true;
     startNetlist(stream,xyce);
     stream<<".ENDS\n";
 }
@@ -592,6 +594,7 @@ void AbstractSpiceKernel::parseDC_OPoutputXY(QString xyce_file)
     Sch->showBias = 1;
 }
 
+
 /*!
  * \brief AbstractSpiceKernel::parseSTEPOutput This method parses text raw spice
  *        output from Parameter sweep analysis. Can parse data that uses appedwrite.
@@ -869,16 +872,16 @@ void AbstractSpiceKernel::parseResFile(QString resfile, QString &var, QStringLis
 }
 
 /*!
- * \brief AbstractSpiceKernel::checkRawOutupt Determine Ngspice Raw output contains
+ * \brief AbstractSpiceKernel::checkRawOutput Determine Ngspice Raw output contains
  *        parameter sweep or is XYCE STD output.
  * \param ngspice_file[in] Raw output file name
  * \param values[out] Numbers of parameter sweep steps
  * \return true if parameter sweep presents, false otherwise
  */
-int AbstractSpiceKernel::checkRawOutupt(QString ngspice_file, QStringList &values)
+int AbstractSpiceKernel::checkRawOutput(QString ngspice_file, QStringList &values)
 {
     values.clear();
-
+    
     QFile ofile(ngspice_file);
     int plots_cnt = 0;
     if (ofile.open(QFile::ReadOnly)) {
@@ -893,7 +896,7 @@ int AbstractSpiceKernel::checkRawOutupt(QString ngspice_file, QStringList &value
         ofile.close();
     }
     if (plots_cnt>1) return spiceRawSwp;
-    else if (plots_cnt == 0)return xyceSTD;
+    else if (plots_cnt == 0) return xyceSTD;
     else return spiceRaw;
 }
 
@@ -905,14 +908,14 @@ int AbstractSpiceKernel::checkRawOutupt(QString ngspice_file, QStringList &value
  * \param xyce True if Xyce simulator was used.
  */
 void AbstractSpiceKernel::convertToQucsData(const QString &qucs_dataset)
-{
+{   //TODO: need to add JSpice dc_op parse to this function
     if (DC_OP_only) { // Don't touch existing datasets when only DC was simulated
         // It's need to show DC bias on schematic only
         foreach(QString output,output_files) {
             QString full_outfile = workdir+QDir::separator()+output;
             if (output.endsWith(".dc_op")) parseDC_OPoutput(full_outfile);
             else if (output.endsWith(".dc_op_xyce")) parseDC_OPoutputXY(full_outfile);
-        }
+       }
         return;
     }
 
@@ -936,6 +939,7 @@ void AbstractSpiceKernel::convertToQucsData(const QString &qucs_dataset)
         bool hasDblParSweep = false;
 
         QString full_outfile = workdir+QDir::separator()+ngspice_output_filename;
+                                       
         if (ngspice_output_filename.endsWith("HB.FD.prn")) {
             parseHBOutput(full_outfile,sim_points,var_list);
             isComplex = true;
@@ -990,7 +994,9 @@ void AbstractSpiceKernel::convertToQucsData(const QString &qucs_dataset)
 
 
         } else {
-            int OutType = checkRawOutupt(full_outfile,swp_var_val);
+            int OutType = checkRawOutput(full_outfile,swp_var_val);
+            // debug
+            // ds_stream<<QString("<outtype = %1 >\n").arg(OutType);
             switch (OutType) {
             case spiceRawSwp:
                 hasParSweep = true;
@@ -998,7 +1004,10 @@ void AbstractSpiceKernel::convertToQucsData(const QString &qucs_dataset)
                 parseSTEPOutput(full_outfile,sim_points,var_list,isComplex);
                 break;
             case spiceRaw:
+                // debug
+                //ds_stream<<"< in checkRawOutput filename: " + full_outfile + ">\n";
                 parseNgSpiceSimOutput(full_outfile,sim_points,var_list,isComplex);
+                // ds_stream<<QString("<sim_points = %1 var_list = %2 isComplex = %3 >\n").arg(sim_points.count()).arg(var_list.count()).arg(isComplex);
                 break;
             case xyceSTD:
                 parseXYCESTDOutput(full_outfile,sim_points,var_list,isComplex);

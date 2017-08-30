@@ -43,6 +43,7 @@ class CustomSimDialog : public QDialog
 private:
 
     bool isXyceScr;
+    bool isJSpiceScr;
 
     SpiceCustomSim* comp;
     Schematic *Sch;

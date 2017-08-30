@@ -4,6 +4,8 @@
     begin                : Tue Apr 21 2015
     copyright            : (C) 2015 by Vadim Kuznetsov
     email                : ra3xdh@gmail.com
+    modified             : Fri Jun 26, 2017 by Michael Arendall - added JSpice
+    email                : miche.arendall@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -27,9 +29,10 @@ class SimSettingsDialog : public QDialog
 
 private:
     QLabel *lblXyce;
+    QLabel *lblXycePar;
+    QLabel *lblJSpice;
     QLabel *lblNgspice;
     QLabel *lblSpiceOpus;
-    QLabel *lblXycePar;
     QLabel *lblNprocs;
     QLabel *lblWorkdir;
     QLabel *lblSimulator;
@@ -40,6 +43,7 @@ private:
     QLineEdit *edtSpiceOpus;
     QLineEdit *edtXyce;
     QLineEdit *edtXycePar;
+    QLineEdit *edtJSpice;
     QSpinBox  *spbNprocs;
     QLineEdit *edtWorkdir;
 
@@ -50,6 +54,7 @@ private:
     QPushButton *btnSetSpOpus;
     QPushButton *btnSetXyce;
     QPushButton *btnSetXycePar;
+    QPushButton *btnSetJSpice;
     QPushButton *btnSetWorkdir;
 
 public:
@@ -62,6 +67,7 @@ private slots:
     void slotSetNgspice();
     void slotSetXyce();
     void slotSetXycePar();
+    void slotSetJSpice();
     void slotSetSpiceOpus();
     void slotSetWorkdir();
     

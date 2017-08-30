@@ -1,9 +1,9 @@
 /***************************************************************************
-                               incl_script.h
+                               jspice_script.h
                                 ----------
-    begin                : Wed Jun 22 2016
-    copyright            : (C) 2016 by Vadim Kuznetsov
-    email                : ra3xdh@gmail.com
+    begin                : Sat Jul 22 2017
+    copyright            : (C) 2017 by Michael Arendall
+    email                : miche.arendall@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,24 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SP_INCLSCRIPT_H
-#define SP_INCLSCRIPT_H
+#ifndef SP_JSPICESCRIPT_H
+#define SP_JSPICESCRIPT_H
 
 #include "components/component.h"
 
 
-class InclScript : public Component  {
+class JSpiceScript : public Component  {
 public:
-  InclScript();
-  ~InclScript();
+  JSpiceScript();
+  ~JSpiceScript();
   Component* newOne();
   static Element* info(QString&, char* &, bool getNewOne=false);
-  QString getExpression(bool isXyce);
 
 protected:
-  QString vhdlCode(int) { return QString(""); }
-  QString verilogCode(int) { return QString(""); }
-  QString netlist() { return QString(""); }
+  QString spice_netlist(bool isXyce = false);
 };
 
 #endif

@@ -1,5 +1,5 @@
 # qucs/extsimkernels library
-# Classes and GUI for external simulation kernels (ngspice, xyce, etc.) interfacing
+# Classes and GUI for external simulation kernels (ngspice, xyce, jspice, etc.) interfacing
 
 INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}
                      ${CMAKE_CURRENT_SOURCE_DIR}
@@ -12,6 +12,7 @@ externsimdialog.h
 abstractspicekernel.h
 ngspice.h
 xyce.h
+jspice.h
 qucs2spice.h
 spicecompat.h
 customsimdialog.h
@@ -25,6 +26,7 @@ externsimdialog.cpp
 abstractspicekernel.cpp
 ngspice.cpp
 xyce.cpp
+jspice.cpp
 qucs2spice.cpp
 spicecompat.cpp
 customsimdialog.cpp
@@ -38,6 +40,7 @@ externsimdialog.h
 abstractspicekernel.h
 ngspice.h
 xyce.h
+jspice.h
 customsimdialog.h
 simsettingsdialog.h
 )

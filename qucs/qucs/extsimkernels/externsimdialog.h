@@ -23,6 +23,7 @@
 #include "schematic.h"
 #include "ngspice.h"
 #include "xyce.h"
+#include "jspice.h"
 #include "spicecompat.h"
 
 class ExternSimDialog : public QDialog
@@ -45,6 +46,7 @@ private:
 
     Ngspice *ngspice;
     Xyce *xyce;
+    JSpice *jspice;
 
 public:
     explicit ExternSimDialog(Schematic *sch,QWidget *parent = 0);

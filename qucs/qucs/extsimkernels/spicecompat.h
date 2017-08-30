@@ -25,7 +25,7 @@ namespace spicecompat {
      bool check_nodename(QString &node);
      QString getDefaultSimulatorName();
 
-     enum Simulator {simNgspice = 0, simXyceSer = 1, simXycePar = 2, simSpiceOpus = 3, simQucsator = 4, simNotSpecified=10};
+     enum Simulator {simNgspice = 0, simXyceSer = 1, simXycePar = 2, simJSpice = 3, simSpiceOpus = 4, simQucsator = 5, simNotSpecified=10};
 }
 
 #endif // SPICECOMPAT_H

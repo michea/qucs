@@ -41,7 +41,7 @@ private:
     enum outType {xyceSTD, spiceRaw, spiceRawSwp};
 
     void normalizeVarsNames(QStringList &var_list);
-    int checkRawOutupt(QString ngspice_file, QStringList &values);
+    int checkRawOutput(QString ngspice_file, QStringList &values);
     void extractBinSamples(QDataStream &dbl, QList< QList<double> > &sim_points,
                            int NumPoints, int NumVars, bool isComplex);
     bool extractASCIISamples(QString &lin, QTextStream &ngsp_data, QList< QList<double> > &sim_points,
@@ -90,6 +90,9 @@ public:
     void parseHBSTEPOutput(QString ngspice_file,
                            QList< QList<double> > &sim_points,
                            QStringList &var_list, bool &isComplex);
+    void parseJSpiceSTDOutput(QString std_file,
+                            QList< QList<double> > &sim_points,
+                            QStringList &var_list, bool &isComplex);
     void parseXYCESTDOutput(QString std_file,
                             QList< QList<double> > &sim_points,
                             QStringList &var_list, bool &isComplex);

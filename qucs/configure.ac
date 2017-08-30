@@ -830,7 +830,8 @@ AC_CONFIG_FILES([Makefile
     qucs-lib/library/MESFETs/Makefile
     qucs-lib/library/XyceDigital/Makefile
     qucs-lib/library/XyceMemristor/Makefile
-    qucs-lib/library/Knowm_AHaH/Makefile
+    qucs-lib/library/Knowm_AHaH_Nodes/Makefile
+    qucs-lib/library/Knowm_AHaH_Controller/Makefile
     qucs-attenuator/Makefile
     qucs-rescodes/Makefile
     qucs/Makefile

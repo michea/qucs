@@ -4,6 +4,8 @@
     begin                : Tue Apr 21 2015
     copyright            : (C) 2015 by Vadim Kuznetsov
     email                : ra3xdh@gmail.com
+    modified             : Fri Jun 26, 2017 by Michael Arendall - added JSpice
+    email                : miche.arendall@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -30,13 +32,14 @@ SimSettingsDialog::SimSettingsDialog(QWidget *parent) :
     lblNgspice = new QLabel(tr("Ngspice executable location"));
     lblXyce = new QLabel(tr("Xyce executable location"));
     lblXycePar = new QLabel(tr("Xyce Parallel executable location (openMPI installed required)"));
-    lblSpiceOpus = new QLabel(tr("SpiceOpus executable location"));
     lblNprocs = new QLabel(tr("Number of processors in a system:"));
+    lblJSpice = new QLabel(tr("JSpice executable location"));
+    lblSpiceOpus = new QLabel(tr("SpiceOpus executable location"));
     lblWorkdir = new QLabel(tr("Directory to store netlist and simulator output"));
 
     cbxSimulator = new QComboBox(this);
     QStringList items;
-    items<<"Ngspice"<<"Xyce (Serial)"<<"Xyce (Parallel)"<<"SpiceOpus"<<"Qucsator";
+    items<<"Ngspice"<<"Xyce (Serial)"<<"Xyce (Parallel)"<<"JSpice"<<"SpiceOpus"<<"Qucsator";
     cbxSimulator->addItems(items);
     qDebug()<<QucsSettings.DefaultSimulator;
     cbxSimulator->setCurrentIndex(QucsSettings.DefaultSimulator);
@@ -46,15 +49,11 @@ SimSettingsDialog::SimSettingsDialog(QWidget *parent) :
     edtNgspice = new QLineEdit(QucsSettings.NgspiceExecutable);
     edtXyce = new QLineEdit(QucsSettings.XyceExecutable);
     edtXycePar = new QLineEdit(QucsSettings.XyceParExecutable);
-    edtSpiceOpus = new QLineEdit(QucsSettings.SpiceOpusExecutable);
     spbNprocs = new QSpinBox(1,256,1,this);
     spbNprocs->setValue(QucsSettings.NProcs);
+    edtJSpice = new QLineEdit(QucsSettings.JSpiceExecutable);
+    edtSpiceOpus = new QLineEdit(QucsSettings.SpiceOpusExecutable);
     edtWorkdir = new QLineEdit(QucsSettings.S4Qworkdir);
-
-    btnOK = new QPushButton(tr("Apply changes"));
-    connect(btnOK,SIGNAL(clicked()),this,SLOT(slotApply()));
-    btnCancel = new QPushButton(tr("Cancel"));
-    connect(btnCancel,SIGNAL(clicked()),this,SLOT(reject()));
 
     btnSetNgspice = new QPushButton(tr("Select ..."));
     connect(btnSetNgspice,SIGNAL(clicked()),this,SLOT(slotSetNgspice()));
@@ -62,10 +61,17 @@ SimSettingsDialog::SimSettingsDialog(QWidget *parent) :
     connect(btnSetXyce,SIGNAL(clicked()),this,SLOT(slotSetXyce()));
     btnSetXycePar = new QPushButton(tr("Select ..."));
     connect(btnSetXycePar,SIGNAL(clicked()),this,SLOT(slotSetXycePar()));
+    btnSetJSpice = new QPushButton(tr("Select ..."));
+    connect(btnSetJSpice,SIGNAL(clicked()),this,SLOT(slotSetJSpice()));
     btnSetSpOpus = new QPushButton(tr("Select ..."));
     connect(btnSetSpOpus,SIGNAL(clicked()),this,SLOT(slotSetSpiceOpus()));
     btnSetWorkdir = new QPushButton(tr("Select ..."));
     connect(btnSetWorkdir,SIGNAL(clicked()),this,SLOT(slotSetWorkdir()));
+
+    btnOK = new QPushButton(tr("Apply changes"));
+    connect(btnOK,SIGNAL(clicked()),this,SLOT(slotApply()));
+    btnCancel = new QPushButton(tr("Cancel"));
+    connect(btnCancel,SIGNAL(clicked()),this,SLOT(reject()));
 
     QVBoxLayout *top = new QVBoxLayout;
 
@@ -97,18 +103,23 @@ SimSettingsDialog::SimSettingsDialog(QWidget *parent) :
     h5->addWidget(spbNprocs);
     top->addLayout(h5);
 
+    top->addWidget(lblJSpice);
+    QHBoxLayout *h6 = new QHBoxLayout;
+    h6->addWidget(edtJSpice,3);
+    h6->addWidget(btnSetJSpice,1);
+    top->addLayout(h6);
+
     top->addWidget(lblSpiceOpus);
     QHBoxLayout *h7 = new QHBoxLayout;
     h7->addWidget(edtSpiceOpus,3);
     h7->addWidget(btnSetSpOpus,1);
     top->addLayout(h7);
 
-
     top->addWidget(lblWorkdir);
-    QHBoxLayout *h6 = new QHBoxLayout;
-    h6->addWidget(edtWorkdir,3);
-    h6->addWidget(btnSetWorkdir,1);
-    top->addLayout(h6);
+    QHBoxLayout *h9 = new QHBoxLayout;
+    h9->addWidget(edtWorkdir,3);
+    h9->addWidget(btnSetWorkdir,1);
+    top->addLayout(h9);
 
     QHBoxLayout *h3 = new QHBoxLayout;
     h3->addWidget(btnOK);
@@ -136,6 +147,7 @@ void SimSettingsDialog::slotApply()
     QucsSettings.NgspiceExecutable = edtNgspice->text();
     QucsSettings.XyceExecutable = edtXyce->text();
     QucsSettings.XyceParExecutable = edtXycePar->text();
+    QucsSettings.JSpiceExecutable = edtJSpice->text();
     QucsSettings.SpiceOpusExecutable = edtSpiceOpus->text();
     QucsSettings.NProcs = spbNprocs->value();
     QucsSettings.S4Qworkdir = edtWorkdir->text();
@@ -177,6 +189,14 @@ void SimSettingsDialog::slotSetXycePar()
     if (!s.isEmpty()) {
         if (s.endsWith("xmpirun")) s += " -np %p";
         edtXycePar->setText(s);
+    }
+}
+
+void SimSettingsDialog::slotSetJSpice()
+{
+    QString s = QFileDialog::getOpenFileName(this,tr("Select JSpice executable location"),edtJSpice->text(),"All files (*)");
+    if (!s.isEmpty()) {
+        edtJSpice->setText(s);
     }
 }
 

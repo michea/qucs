@@ -59,6 +59,7 @@ sp_disto.cpp
 sp_noise.cpp
 sp_pz.cpp
 xyce_script.cpp
+jspice_script.cpp
 
 # 
 # Qucs-S new components cpp list
@@ -140,6 +141,7 @@ sp_disto.h
 sp_noise.h
 sp_pz.h
 xyce_script.cpp
+jspice_script.cpp
 MEMRISTOR_SPICE.h
 
 # 

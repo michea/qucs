@@ -29,7 +29,7 @@ CMLIBS = AHAH1-2.sym AHAH1-2i.sym AHAH2-1.sym AHAH2-1i.sym
 EXTRA_DIST = $(CMLIBS)
 
 # installation of component libraries
-librarydir = ${prefix}/share/qucs/library/Knowm_AHaH
+librarydir = ${prefix}/share/qucs/library/Knowm_AHaH_Nodes
 library_DATA = $(CMLIBS)
 
 CLEANFILES = *~

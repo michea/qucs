@@ -138,7 +138,7 @@ void spicecompat::splitEqn(QString &eqn, QStringList &tokens)
 
 /*!
  * \brief spicecompat::containNodes Determine are there in equaton node voltages
- *        and/or current porbes.
+ *        and/or current probes.
  * \param tokens List of tokens. Should be obtained with splitEqn().
  * \param vars List of vars that are used in ngnutmeg script.
  * \return Return true if equation contain node voltages and/or current probe variables
@@ -324,9 +324,11 @@ QString spicecompat::getDefaultSimulatorName()
         break;
     case spicecompat::simSpiceOpus: sim_lbl = QObject::tr("SpiceOpus");
         break;
-    case spicecompat::simXycePar: sim_lbl = QObject::tr("XYCE (Serial)");
+    case spicecompat::simXyceSer: sim_lbl = QObject::tr("XYCE (Serial)");
         break;
-    case spicecompat::simXyceSer: sim_lbl = QObject::tr("XYCE (Parallel)");
+    case spicecompat::simXycePar: sim_lbl = QObject::tr("XYCE (Parallel)");
+        break;
+    case spicecompat::simJSpice: sim_lbl = QObject::tr("JSpice");
         break;
     default: sim_lbl = QObject::tr("Qucsator");
         break;

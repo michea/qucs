@@ -38,6 +38,7 @@ ExternSimDialog::ExternSimDialog(Schematic *sch,QWidget *parent) :
 
     ngspice = new Ngspice(sch,this);
     xyce = new Xyce(sch,this);
+    jspice = new JSpice(sch,this);
 
 
     buttonSimulate = new QPushButton(tr("Simulate"),this);
@@ -46,6 +47,7 @@ ExternSimDialog::ExternSimDialog(Schematic *sch,QWidget *parent) :
     buttonStopSim = new QPushButton(tr("Stop"),this);
     connect(buttonStopSim,SIGNAL(clicked()),ngspice,SLOT(killThemAll()));
     connect(buttonStopSim,SIGNAL(clicked()),xyce,SLOT(killThemAll()));
+    connect(buttonStopSim,SIGNAL(clicked()),jspice,SLOT(killThemAll()));
     buttonStopSim->setEnabled(false);
 
     buttonSaveNetlist = new QPushButton(tr("Save netlist"),this);
@@ -55,6 +57,7 @@ ExternSimDialog::ExternSimDialog(Schematic *sch,QWidget *parent) :
     connect(buttonExit,SIGNAL(clicked()),this,SLOT(reject()));
     connect(buttonExit,SIGNAL(clicked()),ngspice,SLOT(killThemAll()));
     connect(buttonExit,SIGNAL(clicked()),xyce,SLOT(killThemAll()));
+    connect(buttonExit,SIGNAL(clicked()),jspice,SLOT(killThemAll()));
 
     QGroupBox *grp1 = new QGroupBox(tr("Simulation console"),this);
     QVBoxLayout *vbl1 = new QVBoxLayout;
@@ -71,6 +74,7 @@ ExternSimDialog::ExternSimDialog(Schematic *sch,QWidget *parent) :
     simProgress = new QProgressBar(this);
     connect(ngspice,SIGNAL(progress(int)),simProgress,SLOT(setValue(int)));
     connect(xyce,SIGNAL(progress(int)),simProgress,SLOT(setValue(int)));
+    connect(jspice,SIGNAL(progress(int)),simProgress,SLOT(setValue(int)));
 
     QLabel *lbl_warn = new QLabel(this);
     lbl_warn->setAutoFillBackground(true);
@@ -145,6 +149,16 @@ void ExternSimDialog::slotSetSimulator()
         connect(buttonSimulate,SIGNAL(clicked()),xyce,SLOT(slotSimulate()));
     }
         break;
+
+    case spicecompat::simJSpice: {
+        xyce->setParallel(false);
+        connect(jspice,SIGNAL(started()),this,SLOT(slotNgspiceStarted()));
+        connect(jspice,SIGNAL(finished()),this,SLOT(slotProcessOutput()));
+        connect(jspice,SIGNAL(errors(QProcess::ProcessError)),this,SLOT(slotNgspiceStartError(QProcess::ProcessError)));
+        connect(buttonSimulate,SIGNAL(clicked()),jspice,SLOT(slotSimulate()));
+    }
+        break;
+        
     case spicecompat::simSpiceOpus: {
         xyce->setParallel(false);
         connect(ngspice,SIGNAL(started()),this,SLOT(slotNgspiceStarted()),Qt::UniqueConnection);
@@ -178,6 +192,10 @@ void ExternSimDialog::slotProcessOutput()
         ext = ".dat.xyce";
         out = xyce->getOutput();
         break;
+    case spicecompat::simJSpice:
+        ext = ".dat.jspice";
+        out = jspice->getOutput();
+        break;
     case spicecompat::simSpiceOpus:
         out = ngspice->getOutput();
         ext = ".dat.spopus";
@@ -200,6 +218,9 @@ void ExternSimDialog::slotProcessOutput()
     QFileInfo inf(Sch->DocName);
     //QString qucs_dataset = inf.canonicalPath()+QDir::separator()+inf.baseName()+"_ngspice.dat";
     QString qucs_dataset = inf.canonicalPath()+QDir::separator()+inf.baseName()+ext;
+    // debug
+    editSimConsole->insertPlainText(qucs_dataset);
+    
     switch (QucsSettings.DefaultSimulator) {
     case spicecompat::simNgspice:
     case spicecompat::simSpiceOpus:
@@ -208,6 +229,9 @@ void ExternSimDialog::slotProcessOutput()
     case spicecompat::simXycePar:
     case spicecompat::simXyceSer:
         xyce->convertToQucsData(qucs_dataset);
+        break;
+    case spicecompat::simJSpice:
+        jspice->convertToQucsData(qucs_dataset);
         break;
     default:break;
     }
@@ -227,6 +251,8 @@ void ExternSimDialog::slotNgspiceStarted()
     case spicecompat::simXyceSer: sim = "Xyce (serial) ";
         break;
     case spicecompat::simXycePar: sim = "Xyce (parallel) ";
+        break;
+    case spicecompat::simJSpice: sim = "JSpice ";
         break;
     default: sim = "Simulator "; // Some other simulators could be added ...
         break;
@@ -254,6 +280,8 @@ void ExternSimDialog::slotNgspiceStartError(QProcess::ProcessError err)
     case spicecompat::simXyceSer: sim = "Xyce (serial) ";
         break;
     case spicecompat::simXycePar: sim = "Xyce (parallel) ";
+        break;
+    case spicecompat::simJSpice: sim = "JSpice ";
         break;
     default: sim = "Simulator "; // Some other simulators could be added ...
         break;
@@ -287,9 +315,13 @@ void ExternSimDialog::slotSaveNetlist()
         ngspice->SaveNetlist(filename);
         }
         break;
-    case spicecompat::simXyceSer:
-    case spicecompat::simXycePar: {
+    case spicecompat::simXycePar:
+    case spicecompat::simXyceSer: {
         xyce->SaveNetlist(filename);
+        }
+        break;
+    case spicecompat::simJSpice: {
+        jspice->SaveNetlist(filename);
         }
         break;
     default: break;

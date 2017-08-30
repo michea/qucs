@@ -1323,7 +1323,8 @@ bool Schematic::throughAllComps(QTextStream *stream, int& countInit,
     if(isAnalog) {
         if (QucsSettings.DefaultSimulator!=spicecompat::simQucsator) {
             if ((QucsSettings.DefaultSimulator==spicecompat::simXyceSer)||
-                (QucsSettings.DefaultSimulator==spicecompat::simXycePar))
+                (QucsSettings.DefaultSimulator==spicecompat::simXycePar)||
+                (QucsSettings.DefaultSimulator==spicecompat::simJSpice))
                 r = ((LibComp*)pc)->createSubNetlist(stream, Collect, 16);
             else r = ((LibComp*)pc)->createSubNetlist(stream, Collect, 8);
         } else r = ((LibComp*)pc)->createSubNetlist(stream, Collect, 1);

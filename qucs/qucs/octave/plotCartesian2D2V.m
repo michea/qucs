@@ -25,7 +25,7 @@
 % 
 %
 
-function PlotCartesian2D2V(Type, 
+function plotCartesian2D2V(Type, 
                            XName,  Xlabel,  Xstart, Xstop,
                            Y1Name, Y1label,  Y1Colour,
                            Y2Name, Y2label,  Y2Colour,

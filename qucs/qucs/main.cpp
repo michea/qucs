@@ -50,6 +50,7 @@
 
 #include "extsimkernels/ngspice.h"
 #include "extsimkernels/xyce.h"
+#include "extsimkernels/jspice.h"
 
 #ifdef _WIN32
 #include <Windows.h>  //for OutputDebugString
@@ -115,6 +116,8 @@ bool loadSettings()
     else QucsSettings.XyceExecutable = "/usr/local/Xyce-Release-6.2.0-OPENSOURCE/bin/runxyce";
     if(settings.contains("XyceParExecutable")) QucsSettings.XyceParExecutable = settings.value("XyceParExecutable").toString();
     else QucsSettings.XyceParExecutable = "/usr/local/Xyce-Release-6.2.0-OPENMPI-OPENSOURCE/bin/xmpirun -np %p";
+    if(settings.contains("JSpiceExecutable")) QucsSettings.JSpiceExecutable = settings.value("JSpiceExecutable").toString();
+    else QucsSettings.JSpiceExecutable = "/usr/local/jspice/runjspice";
     if(settings.contains("SpiceOpusExecutable")) QucsSettings.SpiceOpusExecutable = settings.value("SpiceOpusExecutable").toString();
     else QucsSettings.SpiceOpusExecutable = "spiceopus";
     if(settings.contains("Nprocs")) QucsSettings.NProcs = settings.value("Nprocs").toInt();
@@ -202,6 +205,7 @@ bool saveApplSettings()
     settings.setValue("NgspiceExecutable",QucsSettings.NgspiceExecutable);
     settings.setValue("XyceExecutable",QucsSettings.XyceExecutable);
     settings.setValue("XyceParExecutable",QucsSettings.XyceParExecutable);
+    settings.setValue("JSpiceExecutable",QucsSettings.JSpiceExecutable);
     settings.setValue("SpiceOpusExecutable",QucsSettings.SpiceOpusExecutable);
     settings.setValue("Nprocs",QucsSettings.NProcs);
     settings.setValue("S4Q_workdir",QucsSettings.S4Qworkdir);
@@ -391,6 +395,30 @@ int runXyce(QString schematic, QString dataset)
     return 0;
 }
 
+int runJSpice(QString schematic, QString dataset)
+{
+    QucsSettings.DefaultSimulator = spicecompat::simJSpice;
+    Schematic *sch = openSchematic(schematic);
+    if (sch == NULL) {
+      fprintf(stderr, "Failed to open Jspice schematic error!\n");
+      return 1;
+    }
+
+    JSpice *jspice = new JSpice(sch);
+    jspice->slotSimulate();
+    bool ok = jspice->waitEndOfSimulation();
+    if (!ok) {
+        fprintf(stderr, "JSpice timed out or start error!\n");
+        delete jspice;
+        return -1;
+    } else {
+        jspice->convertToQucsData(dataset);
+    }
+
+    delete jspice;
+    return 0;
+}
+
 int doNgspiceNetlist(QString schematic, QString netlist)
 {
     QucsSettings.DefaultSimulator = spicecompat::simNgspice;
@@ -416,6 +444,22 @@ int doXyceNetlist(QString schematic, QString netlist)
     Xyce *xyce = new Xyce(sch);
     xyce->SaveNetlist(netlist);
     delete xyce;
+
+    if (!QFile::exists(netlist)) return -1;
+    else return 0;
+}
+
+int doJSpiceNetlist(QString schematic, QString netlist)
+{
+    QucsSettings.DefaultSimulator = spicecompat::simJSpice;
+    Schematic *sch = openSchematic(schematic);
+    if (sch == NULL) {
+      fprintf(stderr, "Failed to open Jspice schematic doJSpiceNetlist() error!\n");
+      return 1;
+    }
+    JSpice *jspice = new JSpice(sch);
+    jspice->SaveNetlist(netlist);
+    delete jspice;
 
     if (!QFile::exists(netlist)) return -1;
     else return 0;
@@ -903,6 +947,7 @@ int main(int argc, char *argv[])
   bool print_flag = false;
   bool ngspice_flag = false;
   bool xyce_flag = false;
+  bool jspice_flag = false;
   bool run_flag = false;
   QString page = "A4";
   int dpi = 96;
@@ -928,7 +973,8 @@ int main(int argc, char *argv[])
   "  -o FILENAME    use file as output netlist\n"
   "     --ngspice   create Ngspice netlist\n"
   "     --xyce      Xyce netlist\n"
-  "     --run       execute Ngspice/Xyce immediately\n"
+  "     --jspice    JSpice netlist\n"
+  "     --run       execute Ngspice/Xyce/JSpice immediately\n"
   "  -icons         create component icons under ./bitmaps_generated\n"
   "  -doc           dump data for documentation:\n"
   "                 * file with of categories: categories.txt\n"
@@ -977,6 +1023,9 @@ int main(int argc, char *argv[])
     else if (!strcmp(argv[i], "--xyce")) {
       xyce_flag = true;
     }
+    else if (!strcmp(argv[i], "--jspice")) {
+      jspice_flag = true;
+    }
     else if (!strcmp(argv[i], "--run")) {
       run_flag = true;
     }
@@ -1021,10 +1070,12 @@ int main(int argc, char *argv[])
         if (!run_flag) {
             if (ngspice_flag) return doNgspiceNetlist(inputfile, outputfile);
             else if (xyce_flag) return doXyceNetlist(inputfile, outputfile);
+            else if (jspice_flag) return doJSpiceNetlist(inputfile, outputfile);
             else return doNetlist(inputfile, outputfile);
         } else {
             if (ngspice_flag) return runNgspice(inputfile, outputfile);
             else if (xyce_flag) return runXyce(inputfile, outputfile);
+            else if (jspice_flag) return runJSpice(inputfile, outputfile);
             else return 1;
         }
     } else if (print_flag) {

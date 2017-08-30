@@ -45,9 +45,16 @@ function dataSet = loadQucsDataSet(dataSetFile)
 	    return;
     end
 
+    progress = "";
+    pchar = '.';
+    status = "";
     error = 0;
     idata = 0;
     idx = 0;
+
+    status = 'processing data ';
+    fprintf('%s\n', status);
+
     while ~feof(fid) && ~error
         line = fgetl(fid);
         if ~ischar(line)
@@ -59,7 +66,11 @@ function dataSet = loadQucsDataSet(dataSetFile)
         ll = length(line);
         if line(1) == '<'
             if strcmp(line(1:min(7,ll)),'<indep ')
-%             [name,len,cnt] = sscanf(line(8:end-1),'%s %d','C');
+%               [name,len,cnt] = sscanf(line(8:end-1),'%s %d','C');
+
+                progress = strcat(progress, pchar);
+                fprintf(1, '%s', progress);
+
                 out = textscan(line(8:end-1),'%s %d');
                 if numel(out) ~= 2
                     fprintf(1,'Invalid independent variable in data set %s\n',dataSetFile);
@@ -76,7 +87,11 @@ function dataSet = loadQucsDataSet(dataSetFile)
                 idata = 1;
             end
             if strcmp(line(1:min(5,ll)),'<dep ')
-%             [name,nameDep,cnt] = sscanf(line(6:end-1),'%s %s','C');
+%               [name,nameDep,cnt] = sscanf(line(6:end-1),'%s %s','C');
+
+                progress = strcat(progress, pchar);
+                fprintf(1, '%s', progress);
+
                 out = textscan(line(5:end-1),'%s %s');
                 if numel(out) ~= 2
                     fprintf(1,'Invalid dependent variable in data set %s\n',dataSetFile);

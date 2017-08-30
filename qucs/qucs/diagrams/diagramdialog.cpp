@@ -294,7 +294,7 @@ DiagramDialog::DiagramDialog(Diagram *d, QWidget *parent, Graph *currentGraph)
   QHBoxLayout *hb1 = new QHBoxLayout;
   ChooseSimulator = new QComboBox;
   QStringList lst_sim;
-  lst_sim<<"Qucsator (built-in)"<<"Ngspice"<<"Xyce"<<"SpiceOpus";
+  lst_sim<<"Qucsator (built-in)"<<"Ngspice"<<"Xyce"<<"JSpice"<<"SpiceOpus";
   ChooseSimulator->addItems(lst_sim);
   connect(ChooseSimulator,SIGNAL(currentIndexChanged(int)),this,SLOT(slotReadVars(int)));
   lblSim = new QLabel(tr("Data from simulator:"));
@@ -302,7 +302,7 @@ DiagramDialog::DiagramDialog(Diagram *d, QWidget *parent, Graph *currentGraph)
   hb1->addWidget(ChooseSimulator);
   DataGroupLayout->addLayout(hb1);
 
-  ChooseVars = new QTableWidget(1, 3);
+  ChooseVars = new QTableWidget(1, 5);
   ChooseVars->verticalHeader()->setVisible(false);
   ChooseVars->horizontalHeader()->setStretchLastSection(true);
   ChooseVars->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
@@ -709,7 +709,7 @@ DiagramDialog::DiagramDialog(Diagram *d, QWidget *parent, Graph *currentGraph)
   QFileInfo Info(defaultDataSet);
   QDir ProjDir(Info.dirPath());
   QStringList entries;
-  entries<<"*.dat"<<"*.dat.ngspice"<<"*.dat.xyce"<<"*.dat.spopus";
+  entries<<"*.dat"<<"*.dat.ngspice"<<"*.dat.xyce"<<"*.dat.jspice"<<"*.dat.spopus";
   QStringList Elements = ProjDir.entryList(entries, QDir::Files, QDir::Name);
   QStringList::iterator it;
   for(it = Elements.begin(); it != Elements.end(); ++it) {
@@ -780,6 +780,8 @@ void DiagramDialog::slotReadVarsAndSetSimulator(int)
     case spicecompat::simXyceSer:
     case spicecompat::simXycePar: curr_sim = "Xyce";
         break;
+    case spicecompat::simJSpice: curr_sim = "JSpice";
+        break;
     case spicecompat::simSpiceOpus: curr_sim = "SpiceOpus";
         break;
     default: curr_sim = ChooseSimulator->currentText();
@@ -795,6 +797,8 @@ void DiagramDialog::slotReadVarsAndSetSimulator(int)
     if (Info.exists()) ChooseSimulator->addItem("Ngspice");
     Info.setFile(Info.dirPath() + QDir::separator() + DocName + ".xyce");
     if (Info.exists()) ChooseSimulator->addItem("Xyce");
+    Info.setFile(Info.dirPath() + QDir::separator() + DocName + ".jspice");
+    if (Info.exists()) ChooseSimulator->addItem("JSpice");
     Info.setFile(Info.dirPath() + QDir::separator() + DocName + ".spopus");
     if (Info.exists()) ChooseSimulator->addItem("SpiceOpus");
     int sim_pos = ChooseSimulator->findText(curr_sim); // set default simulator if possible
@@ -814,6 +818,8 @@ void DiagramDialog::slotReadVars(int)
       DocName += ".ngspice";
   } else if (ChooseSimulator->currentText()=="Xyce") {
       DocName += ".xyce";
+  } else if (ChooseSimulator->currentText()=="JSpice") {
+      DocName += ".jspice";
   } else if (ChooseSimulator->currentText()=="SpiceOpus") {
       DocName += ".spopus";
   }
@@ -910,6 +916,8 @@ void DiagramDialog::slotTakeVar(QTableWidgetItem* Item)
       s1 = "ngspice/" + s1;
   } else if (ChooseSimulator->currentText()=="Xyce") {
       s1 = "xyce/" + s1;
+  } else if (ChooseSimulator->currentText()=="JSpice") {
+      s1 = "jspice/" + s1;
   } else if (ChooseSimulator->currentText()=="SpiceOpus") {
       s1 = "spopus/" + s1;
   }

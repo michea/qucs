@@ -1867,6 +1867,7 @@ void MouseActions::editElement(Schematic *Doc, QMouseEvent *Event)
 
          if ((c->Model == ".CUSTOMSIM")||
              (c->Model == ".XYCESCR") ||
+             (c->Model == ".JSSCR") ||
              (c->Model == "INCLSCR")) {
              CustomSimDialog *sd = new CustomSimDialog((SpiceCustomSim*)c, Doc);
              if(sd->exec() != 1) break;   // dialog is WDestructiveClose

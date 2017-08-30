@@ -511,8 +511,8 @@ void Module::registerModules (void) {
   REGISTER_SIMULATION_1 (AC_Sim);
   if (QucsSettings.DefaultSimulator == spicecompat::simQucsator)
       REGISTER_SIMULATION_1 (SP_Sim);
-  if (QucsSettings.DefaultSimulator == spicecompat::simQucsator||
-      QucsSettings.DefaultSimulator == spicecompat::simXyceSer||
+  if (QucsSettings.DefaultSimulator == spicecompat::simQucsator ||
+      QucsSettings.DefaultSimulator == spicecompat::simXyceSer ||
       QucsSettings.DefaultSimulator == spicecompat::simXycePar)
       REGISTER_SIMULATION_1 (HB_Sim);
   REGISTER_SIMULATION_1 (Param_Sweep);
@@ -530,10 +530,15 @@ void Module::registerModules (void) {
       REGISTER_SIMULATION_1 (SpicePZ);
   }
 
-  if ((QucsSettings.DefaultSimulator == spicecompat::simXycePar)||
-      (QucsSettings.DefaultSimulator == spicecompat::simXyceSer)) {
+  if (QucsSettings.DefaultSimulator == spicecompat::simXyceSer ||
+      QucsSettings.DefaultSimulator == spicecompat::simXycePar) {
       REGISTER_SIMULATION_1 (XyceScript);
   }
+
+  if (QucsSettings.DefaultSimulator == spicecompat::simJSpice) {
+      REGISTER_SIMULATION_1 (JSpiceScript);
+  }
+
 
   // diagrams
   REGISTER_DIAGRAM_1 (RectDiagram);

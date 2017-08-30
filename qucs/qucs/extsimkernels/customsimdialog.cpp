@@ -88,14 +88,24 @@ CustomSimDialog::CustomSimDialog(SpiceCustomSim *pc, Schematic *sch, QWidget *pa
         edtVars->setEnabled(false);
         btnPlotAll->setEnabled(false);
         isXyceScr = true;
+        isJSpiceScr = false;
+    } else if (comp->Model == ".JSSCR") {
+        lblVars->setEnabled(false);
+        edtVars->setEnabled(false);
+        btnPlotAll->setEnabled(false);
+        isJSpiceScr = true;
+        isXyceScr = false;
     } else if (comp->Model == "INCLSCR") {
         lblVars->setEnabled(false);
         edtVars->setEnabled(false);
         btnPlotAll->setEnabled(false);
         btnFindOutputs->setEnabled(false);
         lblOut->setEnabled(false);
-    } else isXyceScr = false;
-}
+    } else {
+        isXyceScr = false;
+        isJSpiceScr = false;
+    }        
+}   
 
 /*!
  * \brief CustomSimDialog::slotApply Aplly changes of component properties.
@@ -179,6 +189,20 @@ void CustomSimDialog::slotFindOutputs()
     QStringList outps;
     QStringList strings = edtCode->toPlainText().split('\n');
     if (isXyceScr) {
+        QRegExp print_ex("^\\s*\\.print\\s.*");
+        print_ex.setCaseSensitive(false);
+        foreach(QString line,strings) {
+            if (print_ex.exactMatch(line)) {
+                QRegExp file_ex("\\s*file\\s*=\\s*");
+                file_ex.setCaseSensitive(false);
+                int p = line.indexOf(file_ex);
+                p = line.indexOf('=',p);
+                int l = line.size()-(p+1);
+                QString sub = line.right(l);
+                outps.append(sub.section(" ",0,0,QString::SectionSkipEmpty));
+            }
+        }
+    } else if (isJSpiceScr) {
         QRegExp print_ex("^\\s*\\.print\\s.*");
         print_ex.setCaseSensitive(false);
         foreach(QString line,strings) {

@@ -1,5 +1,5 @@
 /***************************************************************************
-                              xyce_script.cpp
+                              incl_script.cpp
                                ------------
     begin                : Wed Jun 22 2016
     copyright            : (C) 2016 by Vadim Kuznetsov
