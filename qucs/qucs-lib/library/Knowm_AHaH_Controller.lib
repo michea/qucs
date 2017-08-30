@@ -1,0 +1,36 @@
+************************************************************************************
+.subckt AHAH-FFXX nout1 nout2
+.PARAM period={1/(PulseFreq+1e-20)}
+.PARAM p1={0.5*period}
+.PARAM p2={period}
+.PARAM p3={0.5*period}
+.PARAM p4={period}
+Vnout1 0 nout1 dc 0 ac 0 pulse( -1e-15 {-1*ScaleFactor} 0 1n 1n {p1} {p2})
+Rout1 nout1 0 1
+Vnout2 0 nout2 dc 0 ac 0 pulse( 1e-15 {ScaleFactor} 0 1n 1n {p3} {p4})
+Rout2 nout2 0 1
+.ends AHAH-FFXX
+************************************************************************************
+.subckt AHAH-RHXX nout1 nout2
+.PARAM period={1/(PulseFreq+1e-20)}
+.PARAM p1={0.5*period}
+.PARAM p2={period}
+.PARAM p3={0.5*period}
+.PARAM p4={period}
+Vnout1 0 nout1 dc 0 ac 0 pulse( 1e-15 {ScaleFactor} 0 1n 1n {p1} {p2})
+Rout1 nout1 0 1
+Vnout2 0 nout2 dc 0 ac 0 pulse( 1e-15 {ScaleFactor} 0 1n 1n {p3} {p4})
+Rout2 nout2 0 1
+.ends AHAH-RHXX
+************************************************************************************
+.subckt AHAH-RLXX nout1 nout2
+.PARAM period={1/(PulseFreq+1e-20)}
+.PARAM p1={0.5*period}
+.PARAM p2={period}
+.PARAM p3={0.5*period}
+.PARAM p4={period}
+Vnout1 0 nout1 dc 0 ac 0 pulse( -1e-15 {-1*ScaleFactor} 0 1n 1n {p1} {p2})
+Rout1 nout1 0 1
+Vnout2 0 nout2 dc 0 ac 0 pulse( -1e-15 {-1*ScaleFactor} 0 1n 1n {p3} {p4})
+Rout2 nout2 0 1
+.ends AHAH-RLXX
