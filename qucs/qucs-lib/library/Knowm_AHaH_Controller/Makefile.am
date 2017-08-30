@@ -1,10 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 # 
-<<<<<<< HEAD
-# qucs-lib/library/Knowm_AHaH/Makefile.am
-=======
 # qucs-lib/library/Knowm_AHaH_Controller/Makefile.am
->>>>>>> 7d2d181926ea7f16a2ce02324598b66872d1f213
 #
 # Automake input file.
 #
