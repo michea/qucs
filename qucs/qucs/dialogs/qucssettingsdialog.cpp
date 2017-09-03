@@ -626,8 +626,10 @@ void QucsSettingsDialog::slotBGColorDialog()
 {
     QColor c = QColorDialog::getColor(
                    BGColorButton->paletteBackgroundColor(), this);
-    if(c.isValid())
+    if(c.isValid()) {
         BGColorButton->setPaletteBackgroundColor(c);
+        BGColorButton->setText(c.name());
+    }    
 }
 
 // -----------------------------------------------------------
